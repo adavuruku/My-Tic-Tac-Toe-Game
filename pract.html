@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <style>
+            #container{
+                width:400px;
+                height:400px;
+            }
+            #cubes{
+                width:400px;
+                margin-top:10px;
+            }
+            #cube{
+                width: 350px;
+            }
+            .row{
+                width: 100px;
+                height: 100px;
+                float:left;
+                background-color: grey;
+                color: white;
+                border: 1px solid;
+                font-size: 100px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <div>
+                <button>Reset</button>
+            </div>
+            <div id="cubes">
+                <div id="cube">
+                    <div class="row" id="1" onclick="itemClick(this.id)"></div>
+                    <div class="row" id="2" onclick="itemClick(this.id)"></div>
+                    <div class="row" id="3" onclick="itemClick(this.id)"></div>
+                </div>
+                <div id="cube">
+                    <div class="row" id="4" onclick="itemClick(this.id)"></div>
+                    <div class="row" id="5" onclick="itemClick(this.id)"></div>
+                    <div class="row" id="6" onclick="itemClick(this.id)"></div>
+                </div>
+                <div id="cube">
+                    <div class="row" id="7" onclick="itemClick(this.id)"></div>
+                    <div class="row" id="8" onclick="itemClick(this.id)"></div>
+                    <div class="row" id="9" onclick="itemClick(this.id)"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        let playerSymbol = "X"
+        let playerMove = []
+        let cubes= document.getElementsByClassName("row")
+        let possibleMoves = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
+        function itemClick(valClick){
+            cubeClick= parseInt(valClick);
+            cubes[cubeClick - 1].innerHTML = playerSymbol
+            playerMove.push(cubeClick)
+
+            if(playerMove.length>=3){
+                verifyWin(playerMove)
+            }
+        }
+        function verifyWin(Allplayer){
+            let found = true
+            for(let i = 0; i<possibleMoves.length; i++ ){
+                for(let j= 0; j <possibleMoves[i].length; j++){
+                    if(Allplayer.includes(possibleMoves[i][j]) ==false){
+                        found = false
+                        break;
+                    }
+                }
+                if(found){
+                    for(let r = 0; r<possibleMoves[i].length; r++){
+                        cubes[possibleMoves[i][r] - 1].style.backgroundColor= "red"
+                    }
+                    alert("Winner")
+                    break;
+                }
+                found = true
+            }
+        }
+        document.q
+    </script>
+</html>

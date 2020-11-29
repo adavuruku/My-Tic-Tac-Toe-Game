@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <style>
+            #container{
+                width: 350px;
+            }
+            #cubes{
+                width:350px;
+                margin-top:10px;
+            }
+            .cube{
+                width:350px;
+            }
+            .row{
+                float:left;
+                width:100px;
+                height: 100px;
+                border: 1px solid;
+                background-color:grey;
+                font-size:100px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <div>
+                <button onclick="resetGame()">Reset</button> <p id="message">Player One</p>
+        
+            </div>
+            <div id="cubes">
+                <div class="cube">
+                    <div class="row" onclick="cubeClicked(1)"></div>
+                    <div class="row" onclick="cubeClicked(2)"></div>
+                    <div class="row" onclick="cubeClicked(3)"></div>
+                </div>
+                <div class="cube">
+                    <div class="row" onclick="cubeClicked(4)"></div>
+                    <div class="row" onclick="cubeClicked(5)"></div>
+                    <div class="row" onclick="cubeClicked(6)"></div>
+                </div>
+                <div class="cube">
+                    <div class="row" onclick="cubeClicked(7)"></div>
+                    <div class="row" onclick="cubeClicked(8)"></div>
+                    <div class="row" onclick="cubeClicked(9)"></div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            let posibilities = [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8], [3,6,9], [1,5,9],[3,5,7]]
+            let msg = document.getElementById("message")
+            let playerOneMove = []
+            let allMoves = []
+            let playerTwoMove = []
+            let playerOne = "X"
+            let playerTwo ="O"
+            let playerPl = "P1"
+            cubesBox = document.getElementsByClassName("row")
+            function cubeClicked(valueCube){
+                cubeValue = parseInt(valueCube)
+                    if(allMoves.includes(cubeValue)===false){
+                        if(playerPl==="P1"){
+                        cubesBox[cubeValue-1].innerHTML = playerOne
+                        playerOneMove.push(cubeValue)
+                        allMoves.push(cubeValue)
+                        playerPl = "P2"
+                        msg.innerHTML = "Player Two Turn"
+                        if(playerOneMove.length>=3){
+                            checkWinner(playerOneMove)
+                        }
+                    }else{
+                        cubesBox[cubeValue-1].innerHTML = playerTwo
+                        playerTwoMove.push(cubeValue)
+                        allMoves.push(cubeValue)
+                        playerPl="P1" 
+                        msg.innerHTML = "Player One Turn"
+                        if(playerTwoMove.length>=3){
+                            checkWinner(playerTwoMove)
+                        }
+                    }
+                }else{
+                    msg.innerHTML = "Ooops! Wrong Move"
+                }
+            }
+            function checkWinner(receiveMoves){
+                let found = true;
+                if(allMoves.length <=9){
+                    for(let i= 0; i<posibilities.length; i++){
+                    for(let j= 0; j<posibilities[i].length; j++){
+                        if(receiveMoves.includes(posibilities[i][j])===false){
+                            found =false;
+                            break;
+                        }
+                    }
+                    if(found){
+                        // alert("Winner")
+                        for(let r= 0; r<posibilities[i].length; r++){
+                            cubesBox[posibilities[i][r] - 1].style.backgroundColor = "red"
+                        }
+                        msg.innerHTML = playerPl === "P1" ? "Player One Won" : "Player Two Won" 
+                        break;
+                    }
+                        found = true;
+                    }
+                }else{
+                    msg.innerHTML = "No Winner.  All Draw"
+                }
+                
+            }
+            function resetGame(){
+                for(let k= 0; k<cubesBox.length; k++){
+                    cubesBox[k].style.backgroundColor = "grey"
+                    cubesBox[k].innerHTML = ""
+                }
+                playerOneMove = []
+                playerTwoMove = []
+                playerPl = "P1"
+                allMoves = []
+                msg.innerHTML = "Player One Turn"
+            }
+        </script>
+    </body>
+</html>
