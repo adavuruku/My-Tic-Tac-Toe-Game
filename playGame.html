@@ -1,0 +1,137 @@
+<html>
+    <head>
+        <style>
+            #container{
+                width: 500px;
+                background-color: black;
+                /* height: 550px; */
+                padding: 10px;
+            }
+            #buttons{
+                text-align: center;
+                width: 470px;
+            }
+            #cubes{
+                width: 470px;
+                background-color: grey;
+                height: 470px;
+                margin-top: 10px;
+            }
+            
+            .cube{
+                width: 460px;
+                height: 150px;
+            }
+            .row{
+                width: 150px;
+                height: 150px;
+                border: 1px solid;
+                float: left;
+                text-align: center;
+                font-size: 100px;
+
+            }
+        </style>
+        
+    </head>
+    <body>
+        <div id="container">
+            <h1 id="message" style="text-align: center;color:white">Player 1 start (X) </h1>
+            <div id="buttons"><button onclick="resetGame()">Reset</button></div>
+            <div id="cubes">
+                <div class="cube">
+                    <div class="row" id="1" onclick="cubeClick(this.id)"></div>
+                    <div class="row" id="2" onclick="cubeClick(this.id)"></div>
+                    <div class="row" id="3" onclick="cubeClick(this.id)"></div>
+                </div>
+                <div class="cube">
+                    <div class="row" id="4" onclick="cubeClick(this.id)"></div>
+                    <div class="row" id="5" onclick="cubeClick(this.id)"></div>
+                    <div class="row" id="6" onclick="cubeClick(this.id)"></div>
+                </div>
+                <div class="cube">
+                    <div class="row" id="7" onclick="cubeClick(this.id)"></div>
+                    <div class="row" id="8" onclick="cubeClick(this.id)"></div>
+                    <div class="row" id="9" onclick="cubeClick(this.id)"></div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            //initiate constants
+            let player1 = "X"
+            let player2 = "O"
+            let message = document.getElementById("message")
+            let cubes = document.getElementsByClassName("row")
+            let noClick = 0
+            message.innerHTML = `First Player (${player1})`
+            let possibilities = [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]]
+            let firstPlayerMove = []
+            let secondPlayerMove = []
+            let boxAlreadyClicked = [] //to stop clicking boxes multiple time
+            let activePlayer = "P1"
+            let winner = false
+
+            //reset the game
+            function resetGame(){
+                var i;
+                for (i = 0; i < cubes.length; i++) {
+                    cubes[i].innerHTML = "";
+                    cubes[i].style.backgroundColor = "grey";
+                }
+                firstPlayerMove = []
+                secondPlayerMove = []
+                boxAlreadyClicked = []
+                activePlayer = "P1"
+                winner = false
+                message.innerHTML = `First Player (${player1})`
+            }
+
+            //when a cube is clicked
+            function cubeClick(numberClick){
+                let cubeValue = parseInt(numberClick);
+                if(boxAlreadyClicked.includes(cubeValue)===false &&  winner === false){
+                    boxAlreadyClicked.push(cubeValue)
+                        if(activePlayer==="P1"){
+                            cubes[cubeValue - 1].innerHTML = player1
+                            firstPlayerMove.push(cubeValue)
+                            activePlayer="P2"
+                            message.innerHTML = `Second Player (${player2})`
+                            if(firstPlayerMove.length >=3){
+                                checkWinner(firstPlayerMove)
+                            } 
+                        }else{
+                            cubes[cubeValue - 1].innerHTML = player2
+                            secondPlayerMove.push(cubeValue)
+                            activePlayer="P1"
+                            message.innerHTML = `First Player (${player1})`
+                            if(secondPlayerMove.length >=3){
+                                checkWinner(secondPlayerMove)
+                            }
+                        }
+                }
+                
+            }
+            
+            function checkWinner(arrList){
+                let found = true
+                for(var i=0; i<possibilities.length; i++){
+                    for(var j=0; j<possibilities[i].length; j++){
+                        if(arrList.includes(possibilities[i][j])==false){
+                            found = false
+                            break;
+                        }
+                    }
+                    if(found) {
+                        message.innerHTML = `Congratulations ${activePlayer==="P1"? "Second Player":"First Player"} You Won !!`   
+                        for(var j=0; j<possibilities[i].length; j++){
+                            document.getElementsByClassName("row")[possibilities[i][j] - 1].style.backgroundColor = "red";
+                        }
+                        winner = true
+                        break;
+                    }
+                    found = true
+                }
+            }
+        </script>
+    </body>
+</html>
