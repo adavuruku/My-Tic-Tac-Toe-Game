@@ -17,3 +17,18 @@ let findPermutations = (string) => {
     }
     return permutationsArray
   }
+
+
+  let crase = (check)=>{
+    if(check.length<2) return check
+    let allInp = []
+    for(let y = 0; y<check.length;  y++){
+      let node = check[y]
+      if(check.indexOf(node)!=y) continue
+      let remaider = check.slice(0,y) + check.slice(y+1, check.length)
+      for(let pos of crase(remaider)){
+        allInp.push(node+pos)
+      }
+    }
+    return allInp
+  }

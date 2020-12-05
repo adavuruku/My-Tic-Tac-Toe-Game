@@ -80,11 +80,12 @@
                     }
                 }else{
                     msg.innerHTML = "Ooops! Wrong Move"
+                    if(allMoves.length >=9){msg.innerHTML = "No Winner.  All Draw"}
                 }
             }
             function checkWinner(receiveMoves){
                 let found = true;
-                if(allMoves.length <=9){
+               
                     for(let i= 0; i<posibilities.length; i++){
                     for(let j= 0; j<posibilities[i].length; j++){
                         if(receiveMoves.includes(posibilities[i][j])===false){
@@ -102,9 +103,7 @@
                     }
                         found = true;
                     }
-                }else{
-                    msg.innerHTML = "No Winner.  All Draw"
-                }
+                
                 
             }
             function resetGame(){
